@@ -16,14 +16,14 @@ type (
 	}
 
 	CorrectReq struct {
-		Text string
+		Text string `form:"text"`
 	}
 )
 
 func (c *Correct) Handle(e *gin.Engine) {
 	e.POST("/correct", func(ctx *gin.Context) {
 		var correctReq CorrectReq
-		ctx.BindJSON(&correctReq)
+		ctx.Bind(&correctReq)
 		fmt.Println(correctReq.Text)
 		resp, err := c.OpenAI.CreateChatCompletion(ctx, openai.ChatCompletionRequest{
 			Model: openai.GPT3Dot5Turbo, Messages: GetCorrectPrompt(correctReq.Text),

@@ -15,8 +15,8 @@ type (
 	}
 
 	TranslateReq struct {
-		Text   string
-		LangTo string
+		Text   string `form:"text"`
+		LangTo string `form:"langTo"`
 	}
 )
 
@@ -30,7 +30,7 @@ func (u *Translate) Handle(e *gin.Engine) {
 
 	e.POST("/translate", func(c *gin.Context) {
 		var translateReq TranslateReq
-		c.BindJSON(&translateReq)
+		c.Bind(&translateReq)
 		fmt.Println(translateReq.Text)
 		res, _ := TranslateText(translateReq.LangTo, translateReq.Text)
 		c.JSON(http.StatusAccepted, res)
